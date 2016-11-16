@@ -14,7 +14,8 @@ type Route struct {
 type Routes []Route
 
 var routes = Routes{
-    Route{"Index","GET","/",Index},
-    Route{"TodoIndex", "GET", "/players", PlayerIndex},
-    Route{"TodoShow", "GET", "/players/{playerId}", PlayerShow},
+    Route{"Index", "GET","/", Index},
+    Route{"PlayerIndex", "GET", "/players", PlayerIndex},
+    Route{"PlayerShow", "GET", "/players/{playerId}", PlayerShow},
+    Route{"CreateAndPutPlayer", "PUT", "/players/{playerId}{name}", CreateAndPutPlayer},
 }
