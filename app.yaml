@@ -2,9 +2,15 @@ runtime: go
 api_version: go1
 
 handlers:
+
+- url: /
+  static_files: static/target/index.html
+  upload: static/target/index.html
+
+- url: /(.*\.(js|css|map|png|eot|ttf))$
+  static_files: static/target/\1
+  upload: static/target/(.*\.(js|map|css|png|eot|ttf))$
+  expiration: 364d
+
 - url: /.*
   script: _go_app
-
-- url: /home
-  static_files: index.html
-  upload: index.html

@@ -1,11 +1,10 @@
 package vmtg
 
 import (
-    "encoding/json"
-    "fmt"
-    "net/http"
-
-    "github.com/gorilla/mux"
+	"encoding/json"
+	"fmt"
+	"net/http"
+    	"github.com/gorilla/mux"
 	"appengine"
 	"appengine/datastore"
 	"strconv"
@@ -13,7 +12,7 @@ import (
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	t, _ := template.ParseFiles("templates/index.html")
+	t, _ := template.ParseFiles("static/target/index.html")
 	t.Execute(w, nil)
 }
 
