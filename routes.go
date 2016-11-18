@@ -18,4 +18,5 @@ var routes = Routes{
     Route{"PlayerIndex", "GET", "/players", PlayerIndex},
     Route{"GetPlayer", "GET", "/api/v1/players/", GetPlayer},
     Route{"CreateAndPutPlayer", "PUT", "/api/v1/players/", CreateAndPutPlayer},
+    Route{"CreateAndPutMatchHistoryRecord", "PUT", "/api/v1/matchHistoryRecord/", CreateAndPutMatchHistoryRecord},
 }

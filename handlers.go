@@ -2,13 +2,13 @@ package vmtg
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
-    	"github.com/gorilla/mux"
 	"appengine"
 	"appengine/datastore"
 	"html/template"
 	"net/url"
+	"time"
+	"strconv"
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
@@ -30,16 +30,6 @@ func PlayerIndex(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func PlayerShow(w http.ResponseWriter, r *http.Request) {
-        vars := mux.Vars(r)
-        playerId := vars["playerId"]
-        fmt.Fprintln(w, "player show:", playerId)
-}
-
-func playerKey(c appengine.Context) *datastore.Key {
-	return datastore.NewKey(c, "Player", "player", 0, nil)
-}
-
 func GetPlayer(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
 
@@ -58,7 +48,6 @@ func GetPlayer(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Print(player.FirstName)
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
@@ -67,15 +56,43 @@ func GetPlayer(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func CreateAndPutMatchHistoryRecord(w http.ResponseWriter, r *http.Request) {
+	c := appengine.NewContext(r)
+
+	playerOne := r.FormValue("playerOne")
+	playerTwo := r.FormValue("playerTwo")
+	RightNow := time.Now()
+	matchResultInt, err := strconv.ParseInt(r.FormValue("Result"), 10, 64)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	matchResult := MatchResult(matchResultInt)
+
+	matchHistoryRecord := MatchHistoryRecord{
+		PlayerOneEmail:playerOne,
+		PlayerTwoEmail:playerTwo,
+		Result:matchResult,
+		Time:RightNow,
+	}
+
+	key := datastore.NewKey(c, "MatchHistoryRecord", "", 0, nil)
+
+	_, err = datastore.Put(c, key, &matchHistoryRecord)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+}
+
 func CreateAndPutPlayer(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
 
 	first := r.FormValue("firstName")
 	last := r.FormValue("lastName")
 	email := r.FormValue("email")
-
-	fmt.Fprintln(w, "player post: ", first)
-	fmt.Fprintln(w, "player post: ", last)
 
 	player := Player{
 		FirstName:first,
