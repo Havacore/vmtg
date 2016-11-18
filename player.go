@@ -1,9 +1,10 @@
 package vmtg
 
 type Player struct {
-	Name string	`json:"name"`
-	EloScore int	`json:"eloScore"`
-	PlayerId int	`json:"playerId"`
+	FirstName string	`json:"firstName"`
+	LastName string		`json:"lastName"`
+	EloScore int		`json:"eloScore"`
+	Email string		`json:"email"`
 }
 
 type Players []Player

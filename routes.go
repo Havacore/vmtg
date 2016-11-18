@@ -16,6 +16,6 @@ type Routes []Route
 var routes = Routes{
     Route{"Index", "GET","/", Index},
     Route{"PlayerIndex", "GET", "/players", PlayerIndex},
-    Route{"PlayerShow", "GET", "/players/{playerId}", PlayerShow},
-    Route{"CreateAndPutPlayer", "PUT", "/players/{playerId}{name}", CreateAndPutPlayer},
+    Route{"GetPlayer", "GET", "/api/v1/players/", GetPlayer},
+    Route{"CreateAndPutPlayer", "PUT", "/api/v1/players/", CreateAndPutPlayer},
 }

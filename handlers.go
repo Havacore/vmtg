@@ -7,8 +7,8 @@ import (
     	"github.com/gorilla/mux"
 	"appengine"
 	"appengine/datastore"
-	"strconv"
 	"html/template"
+	"net/url"
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
@@ -18,8 +18,8 @@ func Index(w http.ResponseWriter, r *http.Request) {
 
 func PlayerIndex(w http.ResponseWriter, r *http.Request) {
         players := Players{
-                Player{Name: "Jason", PlayerId:1},
-                Player{Name: "Branson", PlayerId:2},
+                Player{FirstName: "Jason"},
+                Player{FirstName: "Branson"},
         }
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
@@ -40,25 +40,53 @@ func playerKey(c appengine.Context) *datastore.Key {
 	return datastore.NewKey(c, "Player", "player", 0, nil)
 }
 
-func CreateAndPutPlayer(w http.ResponseWriter, r *http.Request) {
+func GetPlayer(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
 
-	vars := mux.Vars(r)
-	playerIdString := vars["playerId"]
-	playerId, err := strconv.Atoi(playerIdString)
+	u, err := url.Parse(r.URL.String())
+	if err != nil {
+		panic(err)
+	}
+	m, _ := url.ParseQuery(u.RawQuery)
+	email := m["email"][0]
+
+	key := datastore.NewKey(c, "Player", email, 0, nil)
+	player := new(Player);
+
+	err = datastore.Get(c, key, player)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	name := vars["name"]
+	fmt.Print(player.FirstName)
+
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(player); err != nil {
+		panic(err)
+	}
+}
+
+func CreateAndPutPlayer(w http.ResponseWriter, r *http.Request) {
+	c := appengine.NewContext(r)
+
+	first := r.FormValue("firstName")
+	last := r.FormValue("lastName")
+	email := r.FormValue("email")
+
+	fmt.Fprintln(w, "player post: ", first)
+	fmt.Fprintln(w, "player post: ", last)
 
 	player := Player{
-		PlayerId:playerId,
-		Name:name,
+		FirstName:first,
+		LastName:last,
+		EloScore:0,
+		Email:email,
 	}
 
-	key := datastore.NewIncompleteKey(c, "Player", playerKey(c))
-	_, err = datastore.Put(c, key, &player)
+	key := datastore.NewKey(c, "Player", email, 0, nil)
+
+	_, err := datastore.Put(c, key, &player)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
