@@ -2,12 +2,15 @@
 
 @include md-core();
 
-$candy-app-primary: md-palette($md-indigo);
-$candy-app-accent:  md-palette($md-pink, A200, A100, A400);
+$candy-app-primary: md-palette($md-blue-grey);
+$candy-app-accent:  md-palette($md-blue-grey, 900);
 $candy-app-warn:    md-palette($md-red);
 $candy-app-theme: md-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
+
 @include angular-material-theme($candy-app-theme);
 
+
+$accent-action-hover-color: md-color($md-amber, 300);
 *,
 *:before,
 *:after {
@@ -20,4 +23,8 @@ html {
 
 body {
   margin: 0;
+}
+
+[md-raised-button]:hover {
+    background-color: $accent-action-hover-color;
 }

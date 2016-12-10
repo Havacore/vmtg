@@ -16,19 +16,6 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	t.Execute(w, nil)
 }
 
-func PlayerIndex(w http.ResponseWriter, r *http.Request) {
-        players := Players{
-                Player{FirstName: "Jason"},
-                Player{FirstName: "Branson"},
-        }
-
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	if err := json.NewEncoder(w).Encode(players); err != nil {
-		panic(err)
-	}
-
-}
 
 func GetPlayer(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)

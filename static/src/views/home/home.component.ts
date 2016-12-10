@@ -3,13 +3,13 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'home',
   template: `
-    <h2>Home</h2>
-    <h3 class="greeting">{{greeting}}</h3>
-    <img src="/assets/images/image.png" alt="Angular">
+    <button md-raised-button color="accent" [routerLink]="['/player/show']">Player Stats</button >
+    <button md-raised-button color="accent" [routerLink]="['/player/create']">Create Player</button>
   `,
-  styles: ['.greeting { color: darkgray; }']
+  styles: [`
+.greeting { color: darkgray; }
+`]
 })
 
 export class HomeComponent {
-  greeting: string = 'Hello Angular! :)';
 }

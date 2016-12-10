@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
   <md-sidenav-layout fullscreen>
       <md-sidenav #sidenav class="app-sidenav">
         <a md-button [routerLink]="['/']" (click)="sidenav.close()">Home</a><br>
-        <a md-button [routerLink]="['/projects']" (click)="sidenav.close()">Projects</a><br>
+        <a md-button [routerLink]="['/player/show']" (click)="sidenav.close()">Player</a><br>
         <button md-button #closeStartButton (click)="sidenav.close()">Close</button>
       </md-sidenav>
 
@@ -15,7 +15,7 @@ import { Component } from '@angular/core';
         <button class="app-icon-button" (click)="sidenav.toggle()">
           <i class="material-icons app-toolbar-menu">menu</i>
         </button>
-        Angular 2 Seed Application
+        Vendasta Magic League
       </md-toolbar>
 
       <main class="app-content">

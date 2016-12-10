@@ -7,14 +7,14 @@ import { MaterialModule } from '@angular/material';
 import { routes} from '../routes';
 import { AppComponent } from './app.component';
 import { HomeComponent } from '../home';
-import { ProjectsComponent, ProjectListComponent } from '../projects';
+import { CreatePlayerComponent } from '../player';
+import { ShowPlayerStatsComponent } from '../player';
 import { ApiService } from '../../core/api';
-import { ProjectService } from '../../core/projects';
 
 import '../common/styles.scss';
 
 @NgModule({
-    declarations: [AppComponent, HomeComponent, ProjectsComponent, ProjectListComponent],
+    declarations: [AppComponent, HomeComponent, CreatePlayerComponent, ShowPlayerStatsComponent],
     imports: [
         BrowserModule,
         RouterModule.forRoot(routes),
@@ -22,6 +22,6 @@ import '../common/styles.scss';
         MaterialModule.forRoot()
     ],
     bootstrap: [AppComponent],
-    providers: [ApiService, ProjectService]
+    providers: [ApiService]
 })
 export class AppModule { }
