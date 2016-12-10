@@ -22,9 +22,8 @@ export class PlayerService {
     }
 
     private extractData(response: Response) {
-        let body = response.json();
-        console.log(body);
-        return body.data || {};
+        let body: Player = response.json();
+        return body || {};
     }
 
     private handleError(error: Response | any) {

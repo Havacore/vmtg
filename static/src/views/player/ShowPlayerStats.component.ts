@@ -6,7 +6,8 @@ import {Player} from "../../models";
 @Component({
   selector: 'show-player',
   template: `
-    <h2>Logged in player: {{ loggedInPlayer?.firstName |async }}</h2>
+    <h1>Planeswalker: {{ loggedInPlayer?.firstName }} {{ loggedInPlayer?.lastName }}</h1>
+    <h2>Elo: {{loggedInPlayer?.eloScore}}</h2>
   `
 })
 
@@ -19,8 +20,13 @@ export class ShowPlayerStatsComponent implements OnInit {
 
     ngOnInit() {
         this.playerService.getPlayer("jdahl@vendasta.com").subscribe(
-            player => this.loggedInPlayer = player,
-            error => this.errorMessage = <any>error
+            player => {
+                this.loggedInPlayer = player;
+                console.log(this.loggedInPlayer);
+            },
+            error => {
+                this.errorMessage = <any>error;
+            }
         );
     }
 
