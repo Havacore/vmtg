@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"time"
 	"strconv"
+	"github.com/gorilla/mux"
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
@@ -37,6 +38,8 @@ func GetPlayer(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(player); err != nil {
 		panic(err)
@@ -96,4 +99,28 @@ func CreateAndPutPlayer(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+}
+
+// Some weird bullshit to get Cross Origin requests going.
+
+type WithCORS struct {
+  r *mux.Router
+}
+
+// Simple wrapper to Allow CORS.
+// See: http://stackoverflow.com/a/24818638/1058612.
+func (s *WithCORS) ServeHTTP(res http.ResponseWriter, req *http.Request) {
+  if origin := req.Header.Get("Origin"); origin != "" {
+    res.Header().Set("Access-Control-Allow-Origin", origin)
+    res.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+    res.Header().Set("Access-Control-Allow-Headers",
+      "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+  }
+
+  // Stop here for a Preflighted OPTIONS request.
+  if req.Method == "OPTIONS" {
+    return
+  }
+  // Lets Gorilla work
+  s.r.ServeHTTP(res, req)
 }

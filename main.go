@@ -9,7 +9,7 @@ import (
 func init() {
         router := NewRouter()
 
-        http.Handle("/", router)
+        http.Handle("/", &WithCORS{router})
 
         //log.Fatal(http.ListenAndServe(":8000", router))
 }
