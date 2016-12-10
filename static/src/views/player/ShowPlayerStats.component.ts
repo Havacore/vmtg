@@ -20,13 +20,8 @@ export class ShowPlayerStatsComponent implements OnInit {
 
     ngOnInit() {
         this.playerService.getPlayer("jdahl@vendasta.com").subscribe(
-            player => {
-                this.loggedInPlayer = player;
-                console.log(this.loggedInPlayer);
-            },
-            error => {
-                this.errorMessage = <any>error;
-            }
+            player => this.loggedInPlayer = player,
+            error => this.errorMessage = <any>error
         );
     }
 
