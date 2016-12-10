@@ -32,7 +32,10 @@ export class PlayerService {
     }
 
     private extractData(response: Response) {
-        let body: Player = response.json();
+        let body: Player;
+        if (response.text()) {
+            body = response.json();
+        }
         return body || {};
     }
 
