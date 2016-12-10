@@ -9,6 +9,7 @@ import { routes} from '../routes';
 import { AppComponent } from './app.component';
 import { HomeComponent } from '../home';
 import { CreatePlayerComponent } from '../player';
+import { CreatePlayerFormComponent } from "../player";
 import { ShowPlayerStatsComponent } from '../player';
 import { PlayerService } from '../player';
 import { ApiService } from '../../core/api';
@@ -16,7 +17,7 @@ import { ApiService } from '../../core/api';
 import '../common/styles.scss';
 
 @NgModule({
-    declarations: [AppComponent, HomeComponent, CreatePlayerComponent, ShowPlayerStatsComponent],
+    declarations: [AppComponent, HomeComponent, CreatePlayerComponent, ShowPlayerStatsComponent, CreatePlayerFormComponent],
     imports: [
         BrowserModule,
         RouterModule.forRoot(routes),

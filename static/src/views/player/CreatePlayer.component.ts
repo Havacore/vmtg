@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
   selector: 'create-player',
   template: `
     <h2>Create Player</h2>
+    <create-player-form></create-player-form>
   `
 })
 
