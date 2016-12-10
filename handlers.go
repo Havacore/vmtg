@@ -80,19 +80,25 @@ func CreateAndPutMatchHistoryRecord(w http.ResponseWriter, r *http.Request) {
 func CreateAndPutPlayer(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
 
-	first := r.FormValue("firstName")
-	last := r.FormValue("lastName")
-	email := r.FormValue("email")
+	if r.Body == nil {
+		http.Error(w, "Please send request body", 400)
+		return
+	}
+	contentType := r.Header.Get("Content-Type")
+	var player Player
 
-	player := Player{
-		FirstName:first,
-		LastName:last,
-		EloScore:0,
-		Email:email,
+	if contentType == "application/json" {
+		err := json.NewDecoder(r.Body).Decode(&player)
+		if err != nil {
+		    http.Error(w, err.Error(), 400)
+		    return
+        	}
+	} else {
+		http.Error(w, "content type not supported", 415)
+		return
 	}
 
-	key := datastore.NewKey(c, "Player", email, 0, nil)
-
+	key := datastore.NewKey(c, "Player", player.Email, 0, nil)
 	_, err := datastore.Put(c, key, &player)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
