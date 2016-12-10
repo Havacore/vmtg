@@ -6,9 +6,7 @@ import { Component } from '@angular/core';
     <button md-raised-button color="accent" [routerLink]="['/player/show']">Player Stats</button >
     <button md-raised-button color="accent" [routerLink]="['/player/create']">Create Player</button>
   `,
-  styles: [`
-.greeting { color: darkgray; }
-`]
+  styles: []
 })
 
 export class HomeComponent {
