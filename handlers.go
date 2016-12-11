@@ -104,7 +104,11 @@ func CreateAndPutPlayer(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	if err := json.NewEncoder(w).Encode(player); err != nil {
+		panic(err)
+	}
 
+	w.WriteHeader(http.StatusOK)
 }
 
 // Some weird bullshit to get Cross Origin requests going.

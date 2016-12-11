@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {Player} from "../../models";
-import {PlayerService} from "./Player.service";
+import {Player} from '../../models';
+import {PlayerService} from './Player.service';
 
 interface FormModel {
     firstName?: string,
@@ -35,33 +35,54 @@ interface FormModel {
                 </md-input>
             </div>
         </div>
-        <button md-raised-button color="primary" type="submit" (click)="newPlayer()" [disabled]="!playerCreateForm.form.valid">Submit</button>
+        <div>
+            <button md-raised-button color="primary" type="submit" (click)="newPlayer()" [disabled]="!playerCreateForm.form.valid">Submit</button>
+            <md-spinner *ngIf="submitting" class="form-submit-spinner"></md-spinner>
+        </div>
     </form>
 `,
     styles: [`
-
-`]
+.form-submit-spinner {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    vertical-align: middle;
+}
+`],
+    providers: []
 })
 
 export class CreatePlayerFormComponent {
 
     private formModel: FormModel = {};
     private player: Player = new Player("", "", 0, "");
-    private submitted: boolean = false;
+    private submitting: boolean = false;
     private errorMessage: any;
 
-    constructor(private playerService: PlayerService) {}
+    constructor(private playerService: PlayerService) {
+    }
 
     private newPlayer() {
         this.player =  new Player(this.formModel.firstName, this.formModel.lastName, 0, this.formModel.email);
     }
 
+    private refreshForm() {
+        this.formModel = {};
+    }
+
     public formSubmit() {
-        this.submitted = true;
+        this.submitting = true;
         this.playerService.createPlayer(this.player)
             .subscribe(
-                player => {},
-                error => this.errorMessage = <any>error
+                player => {
+                    this.submitting = false;
+                    this.refreshForm();
+                    console.log(player);
+                },
+                error => {
+                    this.errorMessage = <any>error;
+                    this.submitting = false;
+                }
             );
     }
 }
