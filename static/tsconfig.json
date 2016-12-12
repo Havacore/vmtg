@@ -14,6 +14,10 @@
   "types": [
     "core-js",
     "node",
-    "jasmine"
+    "jasmine",
+    "firebase"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

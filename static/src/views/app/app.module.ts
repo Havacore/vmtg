@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '@angular/material';
 import { HttpModule, JsonpModule } from '@angular/http';
+import { AngularFireModule, AuthMethods, AuthProviders } from "angularfire2";
 
 import { routes} from '../routes';
 import { AppComponent } from './app.component';
@@ -16,6 +17,13 @@ import { ApiService } from '../../core/api';
 
 import '../common/styles.scss';
 
+const firebaseConfig = {
+    apiKey: "AIzaSyCpD1w47ngEvJre1yaUHVVepeZMoRIruwc",
+    authDomain: "eloworld-bperreault.firebaseapp.com",
+    databaseURL: "https://eloworld-bperreault.firebaseio.com",
+    storageBucket: "eloworld-bperreault.appspot.com",
+    messagingSenderId: "252692585087"
+};
 @NgModule({
     declarations: [AppComponent, HomeComponent, CreatePlayerComponent, ShowPlayerStatsComponent, CreatePlayerFormComponent],
     imports: [
@@ -24,7 +32,11 @@ import '../common/styles.scss';
         FormsModule,
         MaterialModule.forRoot(),
         HttpModule,
-        JsonpModule
+        JsonpModule,
+        AngularFireModule.initializeApp(firebaseConfig,{
+        provider: AuthProviders.Google,
+        method: AuthMethods.Popup
+    })
     ],
     bootstrap: [AppComponent],
     providers: [ApiService, PlayerService]
