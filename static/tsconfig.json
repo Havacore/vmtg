@@ -9,7 +9,7 @@
     "noEmit": true
   },
   "files": [
-    "src/main.ts"
+    "app/main.ts"
   ],
   "types": [
     "core-js",
