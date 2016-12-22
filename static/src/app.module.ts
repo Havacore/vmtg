@@ -6,16 +6,17 @@ import { MaterialModule } from '@angular/material';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { AngularFireModule, AuthMethods, AuthProviders } from "angularfire2";
 
-import { routes} from '../routes';
-import { AppComponent } from './app.component';
-import { HomeComponent } from '../home';
-import { CreatePlayerComponent } from '../player';
-import { CreatePlayerFormComponent } from "../player";
-import { ShowPlayerStatsComponent } from '../player';
-import { PlayerService } from '../player';
-import { ApiService } from '../../core/api';
 
-import '../common/styles.scss';
+import { AppRoutingModule } from './app-routing';
+
+import { AppComponent } from './app.component';
+import { HomeComponent } from './views/home';
+import { CreatePlayerComponent } from './views/player';
+import { CreatePlayerFormComponent } from "./views/player";
+import { ShowPlayerStatsComponent } from './views/player';
+import { PlayerService } from './views/player';
+
+import './views/common/styles.scss';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCpD1w47ngEvJre1yaUHVVepeZMoRIruwc",
@@ -28,7 +29,7 @@ const firebaseConfig = {
     declarations: [AppComponent, HomeComponent, CreatePlayerComponent, ShowPlayerStatsComponent, CreatePlayerFormComponent],
     imports: [
         BrowserModule,
-        RouterModule.forRoot(routes),
+        AppRoutingModule,
         FormsModule,
         MaterialModule.forRoot(),
         HttpModule,
@@ -39,6 +40,6 @@ const firebaseConfig = {
     })
     ],
     bootstrap: [AppComponent],
-    providers: [ApiService, PlayerService]
+    providers: [PlayerService]
 })
 export class AppModule { }
